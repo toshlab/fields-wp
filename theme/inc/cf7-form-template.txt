@@ -1,0 +1,10 @@
+<p class="form-note">※ これはサンプルサイトです。実際のお申し込みは受け付けていません。</p>
+<div class="fields">
+  <label>保護者のお名前<span class="tag req">必須</span>[text* your-name autocomplete:name]</label>
+  <label>メールアドレス<span class="tag req">必須</span>[email* your-email autocomplete:email]</label>
+  <label>電話番号<span class="tag opt">任意</span>[tel your-tel autocomplete:tel]</label>
+  <label>お子さまの学年<span class="tag req">必須</span>[select* grade first_as_label "選んでください" "年長" "小学1年生" "小学2年生" "小学3年生" "小学4年生" "小学5年生" "小学6年生"]</label>
+  <label class="full">希望のクラス<span class="tag req">必須</span>[select* school-class first_as_label "選んでください"]</label>
+  <label class="full">ご質問など<span class="tag opt">任意</span>[textarea your-message 40x4]</label>
+</div>
+<button type="submit" class="btn">送信する<span class="arrow" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M4 2l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></span></button>

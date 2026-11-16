@@ -1,0 +1,65 @@
+# 手元で WordPress を動かすための環境（本番用ではない）
+#   docker compose up -d
+#   ./scripts/setup.sh        # 初回だけ：WordPress のインストール・プラグイン・サンプルの内容
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - db:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-proot"]
+      interval: 5s
+      retries: 30
+
+  wordpress:
+    image: wordpress:php8.3-apache
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:80"
+    environment: &wp-env
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DEBUG: "1"
+      # mu-plugins/local-mail.php が見る。手元ではメールを Mailpit に送る
+      FIELDS_LOCAL_SMTP_HOST: mailpit
+    volumes: &wp-volumes
+      - wp:/var/www/html
+      - ./theme:/var/www/html/wp-content/themes/fields
+      - ./mu-plugins:/var/www/html/wp-content/mu-plugins
+
+  # WP-CLI（使うときだけ起動する）： docker compose run --rm wpcli wp plugin list
+  wpcli:
+    image: wordpress:cli-php8.3
+    profiles: ["cli"]
+    depends_on:
+      - wordpress
+    # wordpress のコンテナ（Debian）の www-data と同じ uid にして、ファイルの持ち主をそろえる
+    user: "33:33"
+    environment:
+      <<: *wp-env
+      # www-data には書き込めるホームが無いので、キャッシュは /tmp に置く
+      WP_CLI_CACHE_DIR: /tmp/wp-cli-cache
+    volumes:
+      - wp:/var/www/html
+      - ./theme:/var/www/html/wp-content/themes/fields
+      - ./mu-plugins:/var/www/html/wp-content/mu-plugins
+      - ./scripts:/scripts:ro
+
+  # 送信されたメールを確認する： http://localhost:8025
+  mailpit:
+    image: axllent/mailpit
+    ports:
+      - "8025:8025"
+
+volumes:
+  db:
+  wp:
