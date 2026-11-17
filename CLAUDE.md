@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-架空のサッカースクール「FIELDS」の WordPress オリジナルテーマ（ポートフォリオ用のサンプル）。toshLab（https://shuttttttto.com）の実績として載せる。
+架空のサッカースクール「FIELDS」の WordPress オリジナルテーマ（ポートフォリオ用のサンプル）。toshLab（https://toshlab.jp）の実績として載せる。
 
 ## 最重要：公開リポジトリであること
 

@@ -6,7 +6,7 @@
       <b lang="en"><?php echo esc_html(strtok(get_bloginfo('name'), ' ')); ?></b><br>
       <?php bloginfo('description'); ?><?php esc_html_e('（架空のスクールです）', 'fields'); ?>
     </div>
-    <div>Design &amp; Development: <a href="https://shuttttttto.com">tosh / toshLab</a></div>
+    <div>Design &amp; Development: <a href="https://toshlab.jp">tosh / toshLab</a></div>
   </div>
 </footer>
 
